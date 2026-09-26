@@ -1,0 +1,42 @@
+{
+  "name": "questlog",
+  "productName": "QuestLog",
+  "version": "1.15.0",
+  "description": "QuestLog - quản lý thời gian kiểu RPG, widget desktop",
+  "author": {
+    "name": "Tuấn Việt",
+    "email": "wannacry74123@gmail.com"
+  },
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "node game.test.js",
+    "dist": "electron-builder --win"
+  },
+  "devDependencies": {
+    "electron": "^38.8.6",
+    "electron-builder": "25.1.8"
+  },
+  "build": {
+    "appId": "com.questlog.app",
+    "copyright": "© 2026 Tuấn Việt · wannacry74123@gmail.com",
+    "electronDist": "node_modules/electron/dist",
+    "files": [
+      "main.js",
+      "preload.js",
+      "game.js",
+      "data/**",
+      "ui/**",
+      "assets/**",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.png"
+    },
+    "nsis": {
+      "shortcutName": "QuestLog",
+      "artifactName": "QuestLog-Setup-${version}.exe"
+    }
+  }
+}

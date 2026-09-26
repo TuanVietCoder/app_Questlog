@@ -1,0 +1,165 @@
+:root {
+  /* v1.12: phẳng, bo tròn, màu kẹo — nút "bấm lún" kiểu game mobile */
+  --bg: #111019; --panel: #1a1926; --panel2: #232233; --line: #2e2c42;
+  --gold: #ffd166; --gold2: #ffb347; --text: #f5f4fb; --dim: #a09db8; --pop: #b69cff;
+  --hp: #ff6b81; --exp: #5bb8ff; --ok: #3ddc97; --warn: #ffbe55; --ice: #7dd3fc;
+  --font: "Segoe UI Variable Display", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --mono: "Cascadia Mono", Consolas, monospace;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; font: 14px/1.45 var(--font); color: var(--text); user-select: none; }
+button { font: inherit; font-weight: 600; color: inherit; cursor: pointer; border: 1px solid transparent; background: var(--panel2);
+  border-radius: 12px; padding: 7px 14px; transition: .15s; }
+button:hover { background: #2e2c42; }
+button:disabled { opacity: .45; cursor: not-allowed; }
+button.primary { background: var(--gold); color: #2b1d00; border-color: transparent; font-weight: 800; box-shadow: 0 3px 0 #d9a53a; }
+button.primary:active { transform: translateY(2px); box-shadow: 0 1px 0 #d9a53a; }
+button.primary:hover { filter: brightness(1.1); }
+button.danger:hover { border-color: var(--hp); color: #fca5a5; }
+input, select, textarea { font: inherit; color: var(--text); background: #14131e; border: 1px solid var(--line);
+  border-radius: 12px; padding: 7px 10px; outline: none; user-select: text; }
+input:focus, select:focus { border-color: var(--pop); box-shadow: 0 0 0 3px rgba(182,156,255,.2); }
+
+.bar { position: relative; height: 12px; border-radius: 99px; background: #0c0b14; overflow: hidden; }
+.bar > i { position: absolute; inset: 0 auto 0 0; border-radius: 99px; transition: width .5s; }
+.bar.hp > i { background: var(--hp); }
+.bar.exp > i { background: var(--exp); }
+.bar.boss > i { background: #ff7a59; }
+.bar.pxp > i { background: var(--pop); }
+.bar > span { position: absolute; inset: 0; text-align: center; font: 700 9px/11px var(--mono); color: #fff; text-shadow: 0 1px 2px #000; }
+
+/* Pet — cấu trúc trong pet.js; biểu cảm theo [data-mood] */
+.pet-svg { width: 100%; height: 100%; overflow: visible; --lx: 0px; --ly: 0px; }
+.pet-svg * { transform-box: view-box; }
+.pet-body { transform-origin: 60px 108px; animation: bob 2.4s ease-in-out infinite; }
+.pet-tilt { transform-origin: 60px 100px; transition: transform .35s cubic-bezier(.3,1.5,.5,1); }
+.eye-open { transform-origin: 60px 76px; animation: blink 4.2s infinite; }
+.pupils { transform: translate(var(--lx), var(--ly)); transition: transform .14s ease-out; }
+.halo { animation: glow 2s ease-in-out infinite alternate; }
+.aura { animation: glow 3s ease-in-out infinite alternate; }
+@keyframes bob { 0%,100% { transform: scale(1, 1); } 50% { transform: scale(1.04, .95); } }
+@keyframes blink { 0%,94%,100% { transform: scaleY(1); } 97% { transform: scaleY(.1); } }
+@keyframes glow { from { opacity: .35; } to { opacity: 1; } }
+
+/* mặc định: mắt mở + cười; mọi thứ khác ẩn */
+.eye-happy, .eye-closed, .eye-x, .eye-half, .brows path, .mouths > *, .fx > * { display: none; }
+.m-smile, .pet_cat .m-cat { display: inline; }
+.pet_cat .m-smile, .no-mouth .mouths { display: none !important; }
+.cheeks { opacity: .45; transition: opacity .3s; }
+
+[data-mood=happy] .eye-open, [data-mood=love] .eye-open, [data-mood=sleepy] .eye-open, [data-mood=dizzy] .eye-open, [data-mood=hurt] .eye-open,
+[data-mood=bored] .eye-open, [data-mood=eat] .eye-open, [data-mood=laugh] .eye-open { display: none; }
+[data-mood=happy] .eye-happy, [data-mood=love] .eye-happy, [data-mood=hurt] .eye-closed, [data-mood=sleepy] .eye-closed, [data-mood=dizzy] .eye-x,
+[data-mood=bored] .eye-half, [data-mood=eat] .eye-happy, [data-mood=laugh] .eye-happy { display: inline; }
+[data-mood]:not([data-mood=idle]) .m-smile, [data-mood]:not([data-mood=idle]) .m-cat { display: none; }
+[data-mood=happy] .m-grin, [data-mood=love] .m-grin,
+[data-mood=surprised] .m-o, [data-mood=curious] .m-o, [data-mood=dizzy] .m-o, [data-mood=hurt] .m-o,
+[data-mood=sad] .m-sad, [data-mood=hungry] .m-sad, [data-mood=angry] .m-sad,
+[data-mood=sleepy] .m-flat, [data-mood=focus] .m-flat,
+[data-mood=bored] .m-wavy, [data-mood=chomp] .m-big, [data-mood=eat] .m-chew, [data-mood=laugh] .m-grin, [data-mood=shy] .m-cat { display: inline; }
+[data-mood=angry] .b-angry, [data-mood=focus] .b-angry, [data-mood=sad] .b-sad, [data-mood=hungry] .b-sad, [data-mood=hurt] .b-sad, [data-mood=curious] .b-curious { display: inline; }
+[data-mood=love] .fx-heart, [data-mood=sleepy] .fx-zzz, [data-mood=curious] .fx-q, [data-mood=surprised] .fx-ex,
+[data-mood=angry] .fx-anger, [data-mood=happy] .fx-note, [data-mood=hurt] .fx-sweat, [data-mood=focus] .fx-sweat,
+[data-mood=hungry] .fx-food, [data-mood=dizzy] .fx-star,
+[data-mood=bored] .fx-sigh, [data-mood=eat] .fx-crumb, [data-mood=laugh] .fx-haha, [data-mood=shy] .fx-blush { display: inline; }
+[data-mood=shy] .cheeks { opacity: 1; }
+[data-mood=shy] .pupils { transform: translate(-2.5px, 2.8px); }
+[data-mood=chomp] .pupils { transform: translate(var(--lx), var(--ly)) scale(1.2); transform-origin: 60px 76px; }
+[data-mood=chomp] .pet-tilt { transform: scale(1.08); }
+[data-mood=bored] .pet-tilt { transform: rotate(5deg) translateY(2px); }
+[data-mood=laugh] .pet-tilt { animation: wobble .35s ease-in-out infinite; }
+[data-mood=eat] .pet-body { animation: chewBody .3s ease-in-out infinite; }
+.m-chew { transform-box: fill-box; transform-origin: center; animation: chew .3s ease-in-out infinite; }
+@keyframes chew { 50% { transform: scaleY(.2); } }
+@keyframes chewBody { 50% { transform: scale(1.05, .95); } }
+.pet-host.spin .pet-svg { animation: spin .8s cubic-bezier(.4,1.3,.5,1); }
+@keyframes spin { 50% { transform: translateY(-16px) rotate(180deg); } to { transform: rotate(360deg); } }
+.eat-ready { box-shadow: inset 0 0 0 2px #fbbf24, 0 0 18px rgba(251,191,36,.6) !important; }
+[data-mood=love] .cheeks, [data-mood=happy] .cheeks { opacity: .9; }
+[data-mood=surprised] .pupils { transform: translate(var(--lx), var(--ly)) scale(1.15); transform-origin: 60px 76px; }
+
+[data-mood=curious] .pet-tilt { transform: rotate(-9deg); }
+[data-mood=sad] .pet-tilt, [data-mood=hungry] .pet-tilt { transform: translateY(3px) scaleY(.96); }
+[data-mood=sleepy] .pet-body { animation: breathe 3.6s ease-in-out infinite; }
+[data-mood=angry] .pet-tilt { animation: shiver .12s linear infinite; }
+[data-mood=dizzy] .pet-tilt { animation: wobble .6s ease-in-out infinite; }
+.fx > * { transform-box: fill-box; transform-origin: center; }
+.fx-heart, .fx-note, .fx-zzz { animation: fxRise 1.6s ease-out infinite; }
+.fx-q, .fx-ex, .fx-anger { animation: fxPop .5s cubic-bezier(.3,1.8,.5,1); }
+@keyframes breathe { 0%,100% { transform: scale(1, 1); } 50% { transform: scale(1.02, .97); } }
+@keyframes shiver { 50% { transform: translateX(1.5px); } }
+@keyframes wobble { 0%,100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
+@keyframes fxRise { from { transform: translateY(4px); opacity: 0; } 30% { opacity: 1; } to { transform: translateY(-10px); opacity: 0; } }
+@keyframes fxPop { from { transform: scale(0); } }
+
+/* chuyển động riêng từng loài */
+.pet_cat .tail { animation: tail 2.2s ease-in-out infinite; transform-origin: 94px 100px; }
+.pet_bunny .ear-l { animation: earL 3.4s ease-in-out infinite; transform-origin: 48px 56px; }
+.pet_bunny .ear-r { animation: earR 3.4s ease-in-out infinite .2s; transform-origin: 72px 56px; }
+.pet_cat .ear-l { transform-origin: 44px 56px; } .pet_cat .ear-r { transform-origin: 76px 56px; }
+[data-mood=curious].pet_cat .ear-r, [data-mood=curious].pet_bunny .ear-r { animation: perk .5s ease-out forwards; }
+[data-mood=sad].pet_bunny .ear-l, [data-mood=hungry].pet_bunny .ear-l { animation: none; transform: rotate(-40deg); }
+[data-mood=sad].pet_bunny .ear-r, [data-mood=hungry].pet_bunny .ear-r { animation: none; transform: rotate(40deg); }
+.pet_dragon .wing { animation: flapL 1.1s ease-in-out infinite; transform-origin: 32px 76px; }
+.pet_dragon .wing-r { animation-name: flapR; transform-origin: 88px 76px; }
+.pet_owl .wing { animation: flapL 2.8s ease-in-out infinite; transform-origin: 28px 70px; }
+.pet_owl .wing-r { animation-name: flapR; transform-origin: 92px 70px; }
+.floaty .pet-body { animation: float 3s ease-in-out infinite; }
+.floaty .pet-shadow { animation: shadow 3s ease-in-out infinite; transform-origin: 60px 112px; }
+.pet_ghost .arm { animation: flapL 1.8s ease-in-out infinite; transform-origin: 27px 76px; }
+.pet_ghost .arm-r { animation-name: flapR; transform-origin: 93px 76px; }
+.skin-rainbow .sk { animation: hue 5s linear infinite; }
+@keyframes tail { 50% { transform: rotate(14deg); } }
+@keyframes earL { 0%,80%,100% { transform: rotate(0); } 90% { transform: rotate(-14deg); } }
+@keyframes earR { 0%,80%,100% { transform: rotate(0); } 90% { transform: rotate(14deg); } }
+@keyframes perk { to { transform: rotate(12deg) translateY(-3px); } }
+@keyframes flapL { 50% { transform: rotate(-12deg); } }
+@keyframes flapR { 50% { transform: rotate(12deg); } }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes shadow { 50% { transform: scale(.75); opacity: .15; } }
+@keyframes hue { to { filter: hue-rotate(360deg); } }
+
+.pet-host { position: relative; cursor: pointer; }
+.pet-host.hop .pet-svg { animation: hop .45s cubic-bezier(.3,1.6,.5,1); }
+@keyframes hop { 40% { transform: translateY(-14px) scale(.96, 1.05); } }
+.pet-bubble { position: absolute; left: 50%; bottom: 100%; transform: translateX(-50%); z-index: 40; pointer-events: none; white-space: normal; width: max-content; max-width: 210px; text-align: center;
+  background: #fffbeb; color: #1c1917; font: 700 11px/1.2 var(--font); padding: 4px 8px; border-radius: 10px; border: 2px solid #1c1917;
+  box-shadow: 0 3px 0 #1c1917; }
+.pet-bubble.pop { animation: bubble .25s cubic-bezier(.3,1.8,.5,1); }
+.pet-bubble::after { content: ""; position: absolute; left: 50%; top: 100%; margin-left: -5px; border: 5px solid transparent; border-top-color: #1c1917; }
+@keyframes bubble { from { transform: translateX(-50%) scale(.3); opacity: 0; } }
+
+.fighting .pet-body { animation: lunge .9s ease-in-out infinite; }
+@keyframes lunge { 0%,100% { transform: translateX(0); } 40% { transform: translateX(14px) scale(1.06, .94); } 55% { transform: translateX(-4px); } }
+.hurt .pet-body { animation: ouch .4s 3; }
+@keyframes ouch { 50% { transform: translateX(-6px); filter: drop-shadow(0 0 8px red); } }
+
+.float-txt { position: absolute; pointer-events: none; font: 800 13px var(--mono); text-shadow: 0 2px 3px #000;
+  animation: rise 1.4s ease-out forwards; white-space: nowrap; z-index: 50; }
+@keyframes rise { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-46px); opacity: 0; } }
+
+::-webkit-scrollbar { width: 10px; } ::-webkit-scrollbar-thumb { background: #2c2440; border-radius: 9px; border: 2px solid var(--bg); }
+.pet-bubble.ask { pointer-events: auto; max-width: 220px; }
+.ask-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; margin-top: 5px; }
+.ask-row button { padding: 2px 8px; font-size: 11px; border-radius: 99px; background: #fde68a; color: #1c1917; border: 1.5px solid #1c1917; font-weight: 700; }
+.ask-row button:hover { background: #fbbf24; }
+
+/* loài mới & dạng tiến hóa */
+.pet_hamster .ear-l { animation: earL 3.6s ease-in-out infinite; transform-origin: 34px 56px; } .pet_hamster .ear-r { animation: earR 3.6s ease-in-out infinite .4s; transform-origin: 86px 56px; }
+.pet_trashbot .ear-l { animation: lid 5s ease-in-out infinite; transform-origin: 16px 48px; }
+[data-mood=chomp].pet_trashbot .ear-l, [data-mood=eat].pet_trashbot .ear-l { animation: lidChomp .35s ease-in-out infinite; }
+.pet_trashbot .tail { animation: tail 1.6s ease-in-out infinite; transform-origin: 84px 40px; }
+.pet_turtle .tail { animation: tick 2s steps(2) infinite; transform-origin: 60px 50px; }
+.pet_panda .ear-l { animation: earL 3.8s ease-in-out infinite; transform-origin: 30px 62px; } .pet_panda .ear-r { animation: earR 3.8s ease-in-out infinite .5s; transform-origin: 90px 62px; }
+.pet_panda .tail { animation: tail 2.6s ease-in-out infinite; transform-origin: 92px 104px; }
+.pet_octo .wing { animation: flapL 1.6s ease-in-out infinite; transform-origin: 36px 90px; } .pet_octo .wing-r { animation-name: flapR; transform-origin: 84px 90px; }
+.pet_carp .tail { animation: tail 1.2s ease-in-out infinite; transform-origin: 96px 83px; } .pet_carp .wing { animation: flapL 1.8s ease-in-out infinite; transform-origin: 22px 94px; }
+@keyframes lid { 0%, 86%, 100% { transform: rotate(0); } 92% { transform: rotate(-16deg); } }
+@keyframes lidChomp { 50% { transform: rotate(-26deg); } }
+@keyframes tick { 50% { transform: rotate(24deg); } }
+.evo-flame { transform-box: fill-box; transform-origin: 50% 100%; animation: flicker .55s ease-in-out infinite alternate; }
+@keyframes flicker { to { transform: scale(.9, 1.1); } }
+.evo-spark { animation: glow 1.4s ease-in-out infinite alternate; }
+.awake-ring { transform-origin: 60px 76px; animation: ring 14s linear infinite; }
+@keyframes ring { to { transform: rotate(360deg); } }

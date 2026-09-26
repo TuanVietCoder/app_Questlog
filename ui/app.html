@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'">
+<title>QuestLog</title>
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div id="titlebar"><span class="logo"><i>✦</i> QuestLog</span><span class="sub">nhiệm vụ · pet · lịch</span></div>
+
+<aside>
+  <div class="hero-card">
+    <div id="heroPet" class="hero-pet pet-host" title="Bấm để vuốt ve"></div>
+    <input id="heroName" maxlength="24" title="Đổi tên nhân vật">
+    <div id="heroTitle" class="hero-title"></div>
+    <div class="hero-lv"><details id="stBox" class="st-box"><summary id="stIcon"></summary><div class="st-pop" id="stPop"></div></details><b id="heroLv"></b></div>
+    <div class="hero-pet-stats"><span id="heroBond"></span><div class="bar food" id="heroFood"><i></i><span></span></div></div>
+    <div class="user-row"><select id="userSel" title="Ai đang dùng máy"></select></div>
+  </div>
+  <div class="chat-card">
+    <div class="chat-head">💬 Hỏi Pet</div>
+    <div id="chatOut" hidden></div>
+    <div class="crow"><input id="chatIn" maxlength="500" placeholder="Hỏi gì cũng được… (Enter)"><button id="chatGo" title="Gửi">➤</button></div>
+  </div>
+  <nav id="tabs">
+    <details name="nav" open>
+      <summary><span class="gi">🗡️</span>Hôm nay<i class="badge" id="bdgG1" hidden></i></summary>
+      <button data-tab="quests">📜 Nhiệm vụ</button>
+      <button data-tab="schedule">📅 Lịch học & làm</button>
+      <button data-tab="daily">🎁 Hằng ngày <i class="badge" id="bdgDaily" hidden></i></button>
+      <button data-tab="focus">⏳ Tập trung</button>
+    </details>
+    <details name="nav">
+      <summary><span class="gi">🐱</span>Pet & nhân vật<i class="badge" id="bdgG2" hidden></i></summary>
+      <button data-tab="pet">🐾 Pet <i class="badge" id="bdgPet" hidden></i></button>
+      <button data-tab="skills">🌳 Cây kỹ năng</button>
+      <button data-tab="shop">🏪 Cửa hàng</button>
+    </details>
+    <details name="nav">
+      <summary><span class="gi">🏆</span>Tiến độ</summary>
+      <button data-tab="boss">👹 Boss tuần</button>
+      <button data-tab="stats">📊 Thống kê</button>
+    </details>
+    <button data-tab="settings" class="solo"><span class="gi">⚙️</span>Cài đặt</button>
+  </nav>
+  <div class="aside-foot">Ctrl+Shift+T: thêm nhanh<br>Ctrl+Shift+G: xuyên chuột</div>
+</aside>
+
+<main>
+  <header id="hud">
+    <div class="hud-bars">
+      <div class="bar hp" id="hudHp"><i></i><span></span></div>
+      <div class="bar exp" id="hudExp"><i></i><span></span></div>
+    </div>
+    <div class="chip gold" title="Vàng">💰 <b id="hudGold"></b></div>
+    <div class="chip streak" title="Chuỗi ngày">🔥 <b id="hudStreak"></b></div>
+    <button class="chip" id="hudWx" data-tab="daily" hidden></button>
+    <div class="chip" id="hudBuff" hidden></div>
+    <div class="chip ice" id="hudFreeze" hidden></div>
+    <button id="claim" class="primary"></button>
+  </header>
+  <div id="hq" class="hq-banner" hidden></div>
+  <div id="waterBar" class="hq-banner water" hidden></div>
+  <section id="view"></section>
+</main>
+
+<div id="toasts"></div>
+<dialog id="loginDlg"></dialog>
+<script src="../data/vocab-zh.js"></script>
+<script src="../game.js"></script>
+<script src="common.js"></script>
+<script src="pet.js"></script>
+<script src="petctl.js"></script>
+<script src="app.js"></script>
+<script src="tabs.js"></script>
+</body>
+</html>

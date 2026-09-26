@@ -1,0 +1,18 @@
+# phụ thuộc & bản build (tạo lại bằng npm install / npm run dist)
+node_modules/
+dist/
+
+# dữ liệu thật và ảnh chụp có thông tin cá nhân
+save-backup/
+tools/shot/out/
+
+# lặt vặt
+*.log
+Thumbs.db
+
+# dữ liệu riêng của máy này (repo công khai)
+tools/seed-profiles.js
+
+# tài liệu nội bộ (cho AI / người phát triển) — chỉ giữ trên máy
+CLAUDE.md
+docs/

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'">
+<title>QuestLog Widget</title>
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="widget.css">
+</head>
+<body>
+<div id="card">
+  <header>
+    <div class="who"><b id="lv">Lv 1</b> <span id="ttl">Lữ Khách</span></div>
+    <nav>
+      <button id="bDash" title="Mở bảng điều khiển">📋<i class="dot" id="dot" hidden></i></button>
+      <button id="bUser" title="Đổi người dùng">👤</button>
+      <button id="bOpa" title="Độ trong suốt">◐</button>
+      <button id="bGhost" title="Bật/tắt xuyên chuột (Ctrl+Shift+G) — khi đang xuyên chuột vẫn bấm được nút này">👻</button>
+      <button id="bHide" title="Ẩn widget (Ctrl+Shift+H)">✕</button>
+    </nav>
+  </header>
+  <div id="opaRow" hidden><span>◐</span><input id="opa" type="range" min="20" max="100"><span id="opaVal"></span></div>
+  <div id="userRow" hidden></div>
+  <div id="statusRow" hidden></div>
+
+  <div id="scene">
+    <div id="stars"></div>
+    <div id="pet" class="pet-host" title="Bấm để vuốt ve"></div>
+    <div id="mob" hidden><div class="mob-ico"></div><div class="bar hp mini"><i></i></div></div>
+    <div id="glass" hidden><div class="fist">👊</div><div class="crack"></div><b>CỐC CỐC!</b></div>
+    <div id="sign" hidden>
+      <div class="rope"></div>
+      <div class="board"><small>📢 SẮP TỚI GIỜ</small><p id="signTxt"></p><button id="signOk">Đã rõ!</button></div>
+    </div>
+    <div id="buff" hidden></div>
+  </div>
+
+  <div class="bars">
+    <div class="bar hp" id="hp"><i></i><span></span></div>
+    <div class="bar exp" id="exp"><i></i><span></span></div>
+  </div>
+  <div id="petbar"><button id="bStatus" title="Bạn đang làm gì?">❔</button><span id="bond" title="Độ thân thiết">💞</span><div class="bar food" id="food" title="Độ no"><i></i><span></span></div><button id="bFeed" title="Cho Pet ăn">🍖</button><button id="bChat" title="Hỏi Pet (mở ô chat cạnh widget)">💬</button></div>
+
+  <div id="water" hidden><span>💧</span><span id="waterTxt"></span><button id="waterOk">Đã uống</button></div>
+  <div id="hq" hidden><span class="q">❓</span><span id="hqTxt"></span><b id="hqTime"></b><button id="hqOk" title="Đã làm xong">✔</button></div>
+
+  <div id="info" hidden title="Mở tab Hằng ngày"><span id="wx"></span><span id="study"></span></div>
+  <div id="idle">
+    <button class="go" data-min="25">⏱ 25'</button>
+    <button class="go" data-min="50">⏱ 50'</button>
+    <button id="bQuick" title="Thêm nhanh (Ctrl+Shift+T)">＋</button>
+  </div>
+  <div id="next"></div>
+  <div id="fight" hidden>
+    <div class="timer" id="timer">25:00</div>
+    <div class="bar exp thin" id="fbar"><i></i></div>
+    <div class="fstat"><span id="kills"></span><button id="bCancel">✖ Bỏ</button></div>
+  </div>
+  <div id="ghostHint">👻 Đang xuyên chuột — bấm 👻 hoặc Ctrl+Shift+G để tắt</div>
+</div>
+<script src="../data/vocab-zh.js"></script>
+<script src="../game.js"></script>
+<script src="common.js"></script>
+<script src="pet.js"></script>
+<script src="petctl.js"></script>
+<script src="widget.js"></script>
+</body>
+</html>

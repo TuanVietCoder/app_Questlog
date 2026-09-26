@@ -1,0 +1,42 @@
+<!doctype html>
+<meta charset="utf-8">
+<!-- Bảng soát hình: mọi loài Pet × mọi biểu cảm (window.PET_MOODS) + liếc mắt + phụ kiện; ?evo = mọi loài × dạng tiến hóa. -->
+<link rel="stylesheet" href="../../ui/common.css">
+<style>
+  body { background: #151022; padding: 10px; }
+  table { border-collapse: collapse; }
+  td, th { width: 112px; height: 112px; text-align: center; color: #cbd5e1; font: 11px sans-serif; border: 1px solid #2a2140; }
+  th { height: 20px; }
+  td > div { width: 96px; height: 96px; margin: auto; }
+  .eyes-left .pet-svg { --lx: -3.4px; }
+</style>
+<table id="t"></table>
+<script src="../../game.js"></script>
+<script src="../../ui/common.js"></script>
+<script src="../../ui/pet.js"></script>
+<script>
+  const s = G.newState(Date.now());
+  const pets = G.SHOP.filter(i => i.kind === 'pet').map(i => i.id);
+  const skins = { pet_slime: 'skin_default', pet_cat: 'skin_choco', pet_bunny: 'skin_snow', pet_owl: 'skin_night', pet_ghost: 'skin_void', pet_dragon: 'skin_mint',
+    pet_hamster: 'skin_ember', pet_trashbot: 'skin_mint', pet_frog: 'skin_lime', pet_turtle: 'skin_default', pet_panda: 'skin_snow', pet_octo: 'skin_sakura', pet_carp: 'skin_ember' };
+  const accs = G.SHOP.filter(i => i.kind === 'acc').map(i => i.id);
+  const evo = location.search === '?evo';
+  const slots = ['head', 'face', 'neck'], accSet = i => Object.fromEntries(slots.map((k, j) => { const l = accs.filter(a => G.item(a).slot === k); return [k, l[(i + j) % l.length]]; }));
+  if (evo) {
+    let h = '<tr><th></th><th>Dạng I</th>' + ['II', 'III', '★'].map(x => '<th>hệ 1 · ' + x + '</th>').join('') + ['II', 'III', '★'].map(x => '<th>hệ 2 · ' + x + '</th>').join('') + '<th>3 phụ kiện</th><th>3 phụ kiện</th></tr>';
+    pets.forEach((p, i) => {
+      const st = { ...s, petKind: p, skin: skins[p] || 'skin_default' }, e = G.item(p).evo;
+      h += '<tr><th>' + p + '</th><td><div>' + petSVG(st, 'idle', { el: null, stage: 0 }) + '</div></td>'
+        + e.map(el => [1, 2, 3].map(k => '<td><div>' + petSVG(st, 'happy', { el, stage: k }) + '</div><small>' + G.ELEMENTS[el].icon + '</small></td>').join('')).join('')
+        + '<td><div>' + petSVG({ ...st, accs: accSet(i) }) + '</div></td><td><div>' + petSVG({ ...st, accs: accSet(i + 3) }, 'idle', { el: e[0], stage: 2 }) + '</div></td></tr>';
+    });
+    document.getElementById('t').innerHTML = h;
+  }
+  let html = '<tr><th></th>' + PET_MOODS.map(m => `<th>${m}</th>`).join('') + '<th>liếc trái</th><th>phụ kiện</th></tr>';
+  pets.forEach((p, i) => {
+    const st = { ...s, petKind: p, skin: skins[p] || 'skin_default' };
+    html += `<tr><th>${p}</th>` + PET_MOODS.map(m => `<td><div>${petSVG(st, m)}</div></td>`).join('')
+      + `<td class="eyes-left"><div>${petSVG(st)}</div></td><td><div>${petSVG({ ...st, accs: accSet(i) })}</div></td></tr>`;
+  });
+  if (!evo) document.getElementById('t').innerHTML = html;
+</script>
